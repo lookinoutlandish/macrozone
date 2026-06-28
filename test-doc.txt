@@ -82,8 +82,9 @@ STEP 3 - Pushing Edits: DO NOT PUSH UNTIL YOU ARE CERTAIN YOU WANT IT IN THE GIT
 
 Note - RENAMED THE REPO's DEFAULT GITHUB BRANCH
     On github.com, I renamed the repo's default branch from 'master' to 'main'
-    It automatically provided the fopllowing commands to update my local clone:
-        git branch -m master main
-        git fetch origin
-        git branch -u origin/main main
-        git remote set-head origin -a
+    It automatically provided the following commands to update my local clone:
+        git branch -m master main       # Rename your local branch to match the new name on GitHub
+            -m means "move/rename"
+        git fetch origin                # Tell your local Git to update its knowledge of what's on GitHub
+        git branch -u origin/main main  
+        git remote set-head origin -a   # Sync the HEAD pointer to reflect the new default branch
