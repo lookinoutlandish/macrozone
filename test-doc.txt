@@ -1,0 +1,89 @@
+this is just to see if I can git push back to my fork
+
+below are some notes for myself about the process of Staging, Committing, and Pushing edits back to GitHub 
+    (Commands use VS Code Terminal)
+
+Note - BEFORE MAKING ANY EDITS: Make sure you are Adding and Committing to the correct Branch
+    If you made edits, but have not Staged them with "git add ..." yet, you can simply declare the Branch:
+        Create a NEW Branch and Switch to it:
+            "git checkout -b [new-branch-name]"
+                The -b flag means 'create and switch'.  You will see the new name pop up in bottom left corner of VS Code window.
+        SWITCH to an existing Branch:
+            "git checkout [branch-name]"
+    If you already have Staged your edits, you will need to Unstage and re-Stage in the correct branch:
+        "git restore --staged ."       # unstage everything
+        "git checkout [correct-branch]"  # switch to correct branch
+        "git add ."                    # re-stage on the right branch
+        "git commit -m ["Your message"]"
+    If you already Committed your edits to the wrong Branch: (try not to Commit to the wrong Branch, this looks like a HUGE headache)
+        You will need to copy the Commit to the proper Branch using "git cherry-pick", then you will need to reset the commit from the wrong branch.
+        Step 1 — Copy the commit ID from the wrong branch: "git log --oneline"
+            You'll see something like: 'a1b2c3d  Add my new feature'   ← copy this ID
+        Step 2 — Switch to the correct branch: "git checkout [correct-branch]"
+        Step 3 — Apply the commit there: "git cherry-pick [a1b2c3d]"
+        Step 4 — Go back and remove the commit from the wrong branch: 
+            "git checkout [wrong-branch]"   # switch back to the wrong branch which still has the erroneous Commit
+            "git reset HEAD~1"          # removes the commit, keeps your files safe
+
+
+Note - BEFORE PUSHING ANY EDITS: Make sure you are working on the most up-to-date version of the repo
+    Pull before you Push:
+        If any changes exist on GitHub that aren't on your local copy, your push will be rejected. 
+        Always Pull first: 'git pull origin main'
+
+
+STEP 1 - Staging Edits: 
+    "git add ." automatically Stages EVERYTHING, including potentially senstive info 
+        (that's what the .gitignore file is for).  
+    Better to get in habit of Staging individual files: "git add test-doc.txt"
+    To see what is or is not Staged, use "git status"
+    If you accidentally Stage something you do not want:
+        Unstage specific doc with: "git restore --staged test-doc.txt"
+        Unstage EVERYTHING: "git restore --staged ."
+
+STEP 2 - Committing Edits:
+    Once edits are Staged, then use "git commit -m ["descriptive comment text"]"
+    This will Committ everyting currently Staged and add your comment to the history
+    Making more edits BEFORE Pushing
+        After Committing edits, you can still go and make more edits and Stage them, 
+        but you will need to Commit the new edits with a new descriptive comment
+    DO NOT COMMIT SENSITIVE INFO:
+        Things like passwords, API keys, or .env files should never be committed.
+        # .gitignore example
+        .env
+        node_modules/
+        *.log
+    UNDO COMMIT AND UNSTAGE:
+        Go back 1 Commit: "git reset HEAD~1"
+        Go back 2 Commits: "git reset HEAD~2"
+    UNDO COMMIT BUT KEEP STAGED:
+        "git reset --soft HEAD~1"
+    UNDO COMMIT AND PERMANENTLY DELETE CHANGES:
+        "git reset --hard HEAD~1"
+
+STEP 3 - Pushing Edits: DO NOT PUSH UNTIL YOU ARE CERTAIN YOU WANT IT IN THE GITHUB COMMIT HISTORY PERMANENTLY
+    Push all Committed changes to GitHub repo: "git push origin main"
+        This Pushes the changes to the origin repo, in the 'main' branch.  
+        If the repo's default Branch is 'master' I'll need to do the renaming step below.
+    Pushing to a specific EXISTING Branch:
+        "git push origin [branch-name]"
+    Create a NEW Branch and Switch to it:
+        "git checkout -b [new-branch-name]"
+            The -b flag means 'create and switch'. 
+        Then push it up to GitHub: "git push origin [new-branch-name]"
+            This will automatically create the new Branch on GitHub
+    SWITCH to an existing Branch:
+        "git checkout [branch-name]"
+    Set an existing Branch as the DEFAULT Push Branch:
+        Set Default Push Branch: "git push --set-upstream origin [branch-name]"
+            This way you do not have to specify the branch name 'main' or 'test-environment' every single time
+        Now you Push simply: "git push"
+
+
+Note - RENAMED THE REPO's DEFAULT GITHUB BRANCH
+    On github.com, I renamed the repo's default branch from 'master' to 'main'
+    It automatically provided the fopllowing commands to update my local clone:
+        git branch -m master main
+        git fetch origin
+        git branch -u origin/main main
+        git remote set-head origin -a
