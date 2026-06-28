@@ -43,3 +43,8 @@ app-example
 /android
 
 .vscode
+
+# .gitignore example
+.env
+node_modules/
+*.log
